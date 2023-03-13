@@ -1,0 +1,217 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_cc_group_1_name": {
+            "defaultValue": "cc-group-1",
+            "type": "String"
+        },
+        "serverfarms_ApplicationPlan_externalid": {
+            "defaultValue": "/subscriptions/4aacd5fd-04c3-444d-817b-dd66340884f6/resourceGroups/CC/providers/Microsoft.Web/serverfarms/ApplicationPlan",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-03-01",
+            "name": "[parameters('sites_cc_group_1_name')]",
+            "location": "Germany West Central",
+            "tags": {
+                "hidden-related:/subscriptions/4aacd5fd-04c3-444d-817b-dd66340884f6/resourceGroups/CC/providers/Microsoft.Web/serverFarms/ApplicationPlan": "empty"
+            },
+            "kind": "app",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_cc_group_1_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_cc_group_1_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_ApplicationPlan_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "vnetRouteAllEnabled": false,
+                "vnetImagePullEnabled": false,
+                "vnetContentShareEnabled": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": false,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 0
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "E4E4A8531DEEB120D7030979E249BD41A62DB936C353D2AD5BA3B9DBA609DDFF",
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true,
+                "redundancyMode": "None",
+                "storageAccountRequired": false,
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_cc_group_1_name'), '/ftp')]",
+            "location": "Germany West Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_cc_group_1_name'))]"
+            ],
+            "tags": {
+                "hidden-related:/subscriptions/4aacd5fd-04c3-444d-817b-dd66340884f6/resourceGroups/CC/providers/Microsoft.Web/serverFarms/ApplicationPlan": "empty"
+            },
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_cc_group_1_name'), '/scm')]",
+            "location": "Germany West Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_cc_group_1_name'))]"
+            ],
+            "tags": {
+                "hidden-related:/subscriptions/4aacd5fd-04c3-444d-817b-dd66340884f6/resourceGroups/CC/providers/Microsoft.Web/serverFarms/ApplicationPlan": "empty"
+            },
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_cc_group_1_name'), '/web')]",
+            "location": "Germany West Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_cc_group_1_name'))]"
+            ],
+            "tags": {
+                "hidden-related:/subscriptions/4aacd5fd-04c3-444d-817b-dd66340884f6/resourceGroups/CC/providers/Microsoft.Web/serverFarms/ApplicationPlan": "empty"
+            },
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v6.0",
+                "phpVersion": "5.6",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$cc-group-1",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetRouteAllEnabled": false,
+                "vnetPrivatePortsCount": 0,
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 21709,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.2",
+                "ftpsState": "FtpsOnly",
+                "preWarmedInstanceCount": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 0,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_cc_group_1_name'), '/b14f473c2266452f85068d2d29cd3843')]",
+            "location": "Germany West Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_cc_group_1_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2023-03-13T19:14:28.2432344Z",
+                "end_time": "2023-03-13T19:14:33.3533821Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_cc_group_1_name'), '/', parameters('sites_cc_group_1_name'), '.azurewebsites.net')]",
+            "location": "Germany West Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_cc_group_1_name'))]"
+            ],
+            "properties": {
+                "siteName": "cc-group-1",
+                "hostNameType": "Verified"
+            }
+        }
+    ]
+}
