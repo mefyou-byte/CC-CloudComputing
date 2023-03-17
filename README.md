@@ -1,8 +1,7 @@
 # CC-CloudComputing
-CC
 
 
-##Observability 
+# Observability 
 Observability in Azure ermöglicht die Überwachung der internen Zustände eines Systems durch das Sammeln und Analysieren von Daten aus verschiedenen Quellen. 
 Mit anderen Worten, es geht darum, zu sehen, was innerhalb Ihres Systems zu jedem Zeitpunkt geschieht, auch wenn es sich über mehrere Umgebungen verteilt.
 
